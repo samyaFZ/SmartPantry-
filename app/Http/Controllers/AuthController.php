@@ -75,7 +75,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route('home'))->with('success', 'Logged out successfully!');
+        return redirect(route('welcome'))->with('success', 'Logged out successfully!');
     }
 
     /**
@@ -117,6 +117,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect(route('home'))->with('success', 'Your account has been permanently deleted.');
+        return redirect(route('welcome'))->with('success', 'Your account has been permanently deleted.');
     }
 }

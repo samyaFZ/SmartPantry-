@@ -1,22 +1,30 @@
 @extends('layouts.app')
 
+@section('title', 'Your Collection')
+
 @section('content')
-    <div class="space-y-8">
+    <div class="max-w-6xl mx-auto space-y-12 pb-12">
         <div class="flex items-center justify-between">
-            <h1 class="text-3xl font-bold text-[#374151]">My Favorites</h1>
-            <span class="text-sm text-slate-500">{{ auth()->user()->favoriteMeals->count() + auth()->user()->savedMeals->count() }} meals saved</span>
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Collection.</h1>
+                <p class="text-slate-500 text-sm">Your personal library of nutritious recipes.</p>
+            </div>
+            <div class="flex items-center gap-2 p-1 bg-slate-25 border border-slate-100 rounded-lg">
+                <button class="px-4 py-1.5 bg-white border border-slate-100 rounded-md text-[10px] font-bold uppercase tracking-widest text-indigo-600 shadow-sm">All</button>
+                <button class="px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">Recent</button>
+            </div>
         </div>
 
         {{-- Favorited Meals Section --}}
         @if(auth()->user()->favoriteMeals->count() > 0)
-            <div class="space-y-4">
-                <h2 class="text-xl font-semibold text-[#374151] flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    Favorited Meals
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="space-y-8">
+                <div class="flex items-center justify-between border-b border-slate-50 pb-4">
+                    <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <i class="fas fa-heart text-red-500/50"></i> Favorited
+                    </h2>
+                    <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{{ auth()->user()->favoriteMeals->count() }} Items</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach(auth()->user()->favoriteMeals as $meal)
                         <x-meal-card :meal="$meal" />
                     @endforeach
@@ -26,14 +34,14 @@
 
         {{-- Saved Meals Section --}}
         @if(auth()->user()->savedMeals->count() > 0)
-            <div class="space-y-4">
-                <h2 class="text-xl font-semibold text-[#374151] flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
-                    </svg>
-                    Saved Meals
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="space-y-8 pt-6">
+                <div class="flex items-center justify-between border-b border-slate-50 pb-4">
+                    <h2 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <i class="fas fa-bookmark text-indigo-500/50"></i> Saved for Later
+                    </h2>
+                    <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{{ auth()->user()->savedMeals->count() }} Items</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach(auth()->user()->savedMeals as $meal)
                         <x-meal-card :meal="$meal" />
                     @endforeach
@@ -43,9 +51,16 @@
 
         {{-- Empty State --}}
         @if(auth()->user()->favoriteMeals->count() === 0 && auth()->user()->savedMeals->count() === 0)
-            <div class="text-center py-12 bg-[#f9fafb] rounded-lg border border-gray-100">
-                <i class="fas fa-heart text-4xl text-slate-300 mb-4 block"></i>
-                <p class="text-slate-600">No favorites yet. Start saving meals!</p>
+            <div class="py-24 text-center space-y-6 max-w-sm mx-auto">
+                <div class="text-slate-100 text-5xl">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900 uppercase tracking-widest">Empty Collection</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">Save recipes you love to find them easily and plan your weekly meal prep faster.</p>
+                <a href="{{ route('home') }}"
+                    class="inline-block px-8 py-3 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-800 transition-colors">
+                    Find Recipes
+                </a>
             </div>
         @endif
     </div>

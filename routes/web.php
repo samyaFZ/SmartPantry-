@@ -5,12 +5,18 @@ use App\Http\Controllers\Api\MealSearchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PantryController;
 
-// homepage and meal browsing
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// landing page
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+// dashboard and meal browsing
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/meal/{id}', [MealController::class, 'show'])->name('meals.show');
 Route::view('/favorites', 'favorites')->name('favorites');
-Route::view('/pantry', 'pantry')->name('pantry');
+Route::get('/pantry', [PantryController::class, 'index'])->name('pantry');
 Route::view('/add-meal', 'meals.add')->name('meals.add');
 // handle new meal submissions
 Route::post('/meals', [MealController::class, 'store'])->name('meals.store');

@@ -44,6 +44,14 @@ class HomeController extends Controller
             $meals = Meal::with('ingredients')->inRandomOrder()->limit(6)->get();
         }
 
-        return view('home', compact('meals', 'query'));
+        // Dashboard Stats
+        $stats = [
+            'pantry_count' => 42, // Placeholder for now as per pantry view
+            'expiring_count' => 12,
+            'favorites_count' => auth()->check() ? auth()->user()->favoriteMeals()->count() : 0,
+            'saved_count' => auth()->check() ? auth()->user()->savedMeals()->count() : 0,
+        ];
+
+        return view('home', compact('meals', 'query', 'stats'));
     }
 }
