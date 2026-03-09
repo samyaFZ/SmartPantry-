@@ -40,11 +40,7 @@ To get a local copy up and running, follow these simple steps:
    ```
 
 4. **Prepare the database**
-   *(Note: SmartPantry uses SQLite by default)*
    ```bash
-   # Create the sqlite file
-   touch database/database.sqlite
-   
    # Run migrations
    php artisan migrate
    ```
